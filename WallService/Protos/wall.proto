@@ -1,0 +1,88 @@
+syntax = "proto3";
+
+option csharp_namespace = "WallService";
+
+package wall;
+
+
+ enum ResultCode
+{
+    Success = 0;
+    Failed = 1;
+    UserNotFound = 2;
+    FileException = 3;
+    PostNotFound = 4;
+
+}
+
+message GetAllUserPostsRequest {
+  int32 userId = 1;
+}
+
+message AddPostRequest {
+  int32 userId = 1;
+  PostCreateRequest post = 2;
+}
+message PostCreateRequest {
+  int32 Userid = 1;
+  string Text = 3;
+}
+
+message DeletePostRequest {
+  int32 PostId = 1;
+  int32 UserId = 2;
+}
+
+message UpdatePostRequest {
+  int32 PostId = 1;
+  int32 UserId = 2;
+  PostCreateRequest post = 3;
+}
+
+
+service UserWall {
+  rpc GetAllUserPosts (GetAllUserPostsRequest) returns (GetAllUserPostsReply);
+  rpc AddPost (AddPostRequest) returns (AddPostReply);
+  rpc DeletePost (DeletePostRequest) returns (DeletePostReply);
+  rpc UpdatePost (UpdatePostRequest) returns (UpdatePostReply);
+  
+}
+
+
+message GetAllUserPostsReply {
+  repeated PostReply post = 1;
+}
+
+message AddPostReply {
+ ResultCode resultCode = 1;
+}
+
+message DeletePostReply {
+  ResultCode resultCode = 1;
+}
+
+message UpdatePostReply {
+  ResultCode resultCode = 1;
+}
+
+
+message PostReply {
+  int32 Id = 1;
+  int32 OwnerId = 2;
+  string Text = 3;
+  uint64 CreateOn = 4;
+  int32 Likes = 5;
+  int32 Reposts = 6;
+  int32 Views = 7;
+  repeated Comments comments = 8;
+}
+
+message Comments {
+  int32 Id = 1;
+  string Text = 2;
+  uint64 CreateOn = 3;
+  int32 Likes = 4;
+  int32 PostId = 5;
+  int32 UserId = 6;
+}
+
