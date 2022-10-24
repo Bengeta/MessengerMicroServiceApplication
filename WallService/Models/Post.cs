@@ -13,8 +13,8 @@ public class Post
     public string Text { get; set; }
     [BsonElement("create_on"), BsonRepresentation(BsonType.DateTime)]
     public DateTime CreateOn { get; set; }
-    [BsonElement("likes_count"), BsonRepresentation(BsonType.Int32)]
-    public int Likes { get; set; }
+    [BsonElement("likes")]
+    public List<int> Likes { get; set; }
     [BsonElement("reposts_count"), BsonRepresentation(BsonType.Int32)]
     public int Reposts { get; set; }
     [BsonElement("views_count"), BsonRepresentation(BsonType.Int32)]

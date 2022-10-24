@@ -43,6 +43,51 @@ public class WallService : UserWall.UserWallBase
         var reply = await _postAccess.UpdatePost(request);
         return new UpdatePostReply(){ResultCode = reply};
     }
+    
+    public override async Task<GetPostReply> GetPost(GetPostRequest request, ServerCallContext context)
+    {
+        var post = await _postAccess.GetPost(request.PostId);
+        return _mapper.Map<GetPostReply>(post);
+    }
+    
+    public override async Task<GetCommentsReply> GetComments(GetCommentsRequest request, ServerCallContext context)
+    {
+        var comments = await _postAccess.GetComments(request.PostId);
+        var reply = new GetCommentsReply();
+        reply.Comments.AddRange(_mapper.Map<List<Comments>>(comments));
+        return reply;
+    }
+
+    public override async Task<AddCommentReply> AddComment(AddCommentRequest request, ServerCallContext context)
+    {
+        var reply = await _postAccess.CreateComment(request);
+        return new AddCommentReply(){ResultCode = reply};
+    }
+    
+    public override async Task<DeleteCommentReply> DeleteComment(DeleteCommentRequest request, ServerCallContext context)
+    {
+        var reply = await _postAccess.DeleteComment(request.CommentId);
+        return new DeleteCommentReply(){ResultCode = reply};
+    }
+    
+    public override async Task<UpdateCommentReply> UpdateComment(UpdateCommentRequest request, ServerCallContext context)
+    {
+        var reply = await _postAccess.UpdateComment(request);
+        return new UpdateCommentReply(){ResultCode = reply};
+    }
+    
+    public override async Task<CommentLikeReply> CommentLike(CommentLikeRequest request, ServerCallContext context)
+    {
+        var reply = await _postAccess.LikeComment(request.CommentId, request.UserId);
+        return new CommentLikeReply(){ResultCode = reply};
+    }
+    
+    public override async Task<PostLikeReply> PostLike(PostLikeRequest request, ServerCallContext context)
+    {
+        var reply = await _postAccess.LikePost(request.PostId, request.UserId);
+        return new PostLikeReply(){ResultCode = reply};
+    }
+
 
 
 

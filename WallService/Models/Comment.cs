@@ -21,6 +21,6 @@ public class Comment
     [BsonElement("user_id"), BsonRepresentation(BsonType.ObjectId)]
     public int UserId { get; set; }
 
-    [BsonElement("likes_count"), BsonRepresentation(BsonType.Int32)]
-    public int Likes { get; set; }
+    [BsonElement("likes")]
+    public List<int> Likes { get; set; }
 }

@@ -28,6 +28,10 @@ message PostCreateRequest {
   string Text = 3;
 }
 
+message GetPostRequest {
+  int32 postId = 1;
+}
+
 message DeletePostRequest {
   int32 PostId = 1;
   int32 UserId = 2;
@@ -39,18 +43,76 @@ message UpdatePostRequest {
   PostCreateRequest post = 3;
 }
 
+message GetCommentsRequest {
+  int32 postId = 1;
+}
+
+message CommentCreateRequest {
+  string Text = 1;
+}
+
+message CommentUpdateRequest {
+  string Text = 1;
+  repeated Like Likes = 2;
+  
+  
+}
+message Like{
+  int32 UserId = 1;
+}
+
+message AddCommentRequest {
+  int32 PostId = 1;
+  int32 UserId = 2;
+  CommentCreateRequest comment = 3;
+}
+
+message DeleteCommentRequest {
+  int32 CommentId = 1;
+  int32 UserId = 2;
+}
+
+message UpdateCommentRequest {
+  int32 CommentId = 1;
+  int32 UserId = 2;
+  int32 PostId = 3;
+  CommentUpdateRequest comment = 4;
+}
+
+message CommentLikeRequest {
+  int32 CommentId = 1;
+  int32 UserId = 2;
+}
+
+message PostLikeRequest {
+  int32 PostId = 1;
+  int32 UserId = 2;
+}
+
 
 service UserWall {
   rpc GetAllUserPosts (GetAllUserPostsRequest) returns (GetAllUserPostsReply);
+  rpc GetPost (GetPostRequest) returns (GetPostReply);
   rpc AddPost (AddPostRequest) returns (AddPostReply);
   rpc DeletePost (DeletePostRequest) returns (DeletePostReply);
   rpc UpdatePost (UpdatePostRequest) returns (UpdatePostReply);
+  rpc PostLike (PostLikeRequest) returns (PostLikeReply);
+  
+  rpc GetComments (GetCommentsRequest) returns (GetCommentsReply);
+  rpc AddComment (AddCommentRequest) returns (AddCommentReply);
+  rpc DeleteComment (DeleteCommentRequest) returns (DeleteCommentReply);
+  rpc UpdateComment (UpdateCommentRequest) returns (UpdateCommentReply);
+  rpc CommentLike (CommentLikeRequest) returns (CommentLikeReply);
   
 }
 
 
 message GetAllUserPostsReply {
   repeated PostReply post = 1;
+}
+
+message GetPostReply {
+  PostReply post = 1;
 }
 
 message AddPostReply {
@@ -85,4 +147,32 @@ message Comments {
   int32 PostId = 5;
   int32 UserId = 6;
 }
+
+message GetCommentsReply {
+  repeated Comments comments = 1;
+}
+
+message AddCommentReply {
+  ResultCode resultCode = 1;
+}
+
+message DeleteCommentReply {
+  ResultCode resultCode = 1;
+}
+
+message UpdateCommentReply {
+  ResultCode resultCode = 1;
+}
+
+message CommentLikeReply {
+  ResultCode resultCode = 1;
+}
+
+message PostLikeReply {
+  ResultCode resultCode = 1;
+}
+
+
+
+
 
